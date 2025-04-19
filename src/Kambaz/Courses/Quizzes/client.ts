@@ -1,5 +1,7 @@
 import axios from "axios";
-const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
+const REMOTE_SERVER = process.env.NODE_ENV === 'production' 
+  ? 'https://project-quiz-server.onrender.com' 
+  : process.env.REACT_APP_REMOTE_SERVER;
 const QUIZ_API = `${REMOTE_SERVER}/api/quizzes`;
 const QUIZ_ATTEMPTS_API = `${REMOTE_SERVER}/api/quizattempts`;
 const QUESTION_API = `${REMOTE_SERVER}/api/questions`;
