@@ -44,7 +44,15 @@ export default function QuizEditor({
 
   useEffect(() => {
     if (!isCreate) {
-      fetchQuizDetails(qzid as string);
+      if (!qzid) {
+        console.error("Quiz ID is missing");
+        return;
+      }
+      try {
+        fetchQuizDetails(qzid as string);
+      } catch (error: unknown) {
+        console.error("Error fetching quiz details:", error);
+      }
     }
   }, []);
 
@@ -59,8 +67,16 @@ export default function QuizEditor({
     try {
       if (isCreate) {
         qzid = await createQuizDetails(true);
-        navigate(`/Kambaz/Courses/${cid}/Quizzes`);
+        if (qzid) {
+          navigate(`/Kambaz/Courses/${cid}/Quizzes`);
+        } else {
+          console.error("Failed to create quiz: No quiz ID returned");
+        }
       } else {
+        if (!qzid) {
+          console.error("Cannot save and publish: Quiz ID is missing");
+          return;
+        }
         await saveQuizDetails(true);
         navigate(`/Kambaz/Courses/${cid}/Quizzes`);
       }
@@ -73,8 +89,16 @@ export default function QuizEditor({
     try {
       if (isCreate) {
         qzid = await createQuizDetails(false);
-        navigate(`/Kambaz/Courses/${cid}/Quizzes/${qzid}/Details`);
+        if (qzid) {
+          navigate(`/Kambaz/Courses/${cid}/Quizzes/${qzid}/Details`);
+        } else {
+          console.error("Failed to create quiz: No quiz ID returned");
+        }
       } else {
+        if (!qzid) {
+          console.error("Cannot save: Quiz ID is missing");
+          return;
+        }
         await saveQuizDetails(false);
         // Don't navigate away when saving an existing quiz
       }
