@@ -59,7 +59,7 @@ export default function TOC() {
       </li>
       <li>
         <a id="wd-render-url"
-          href=""
+          href="https://project-quiz-server.onrender.com"
           target="_blank" rel="noreferrer" className="nav-link">
           Render
         </a>
